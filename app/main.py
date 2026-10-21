@@ -67,6 +67,7 @@ def create_app(engine: SpeechEngine | None = None, settings: Settings | None = N
     @app.websocket("/ws/transcribe")
     async def transcribe(ws: WebSocket):
         await ws.accept()
+        logger.info("WebSocket connected: /ws/transcribe")
         eng: SpeechEngine = app.state.engine
         send_lock = asyncio.Lock()
         worker: asyncio.Task | None = None
@@ -104,6 +105,10 @@ def create_app(engine: SpeechEngine | None = None, settings: Settings | None = N
 
             session = StreamingSession(eng, settings, language)
             await send({"type": "ready", "model": settings.model_name, "language": language})
+            logger.info(
+                "WebSocket ready message sent; language=%s",
+                language
+            )
 
             async def run_update() -> None:
                 try:
