@@ -1,0 +1,57 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+
+# Java / Maven
+backend/target/
+*.class
+*.jar
+*.log
+hs_err_pid*
+
+# STS / Eclipse / IntelliJ / VS Code
+.classpath
+.project
+.settings/
+.factorypath
+.springBeans
+.sts4-cache/
+bin/
+.idea/
+*.iml
+.vscode/*
+!.vscode/extensions.json
+
+# Node / Vite
+node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+
+# Speech models, caches, audio and temporary recordings
+speech-service/models/
+*.bin
+*.onnx
+*.ct2
+.cache/
+huggingface/
+*.wav
+*.mp3
+*.webm
+*.ogg
+*.m4a
+tmp/
+
+# OS
+.DS_Store
+Thumbs.db
