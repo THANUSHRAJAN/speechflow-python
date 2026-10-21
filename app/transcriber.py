@@ -221,11 +221,29 @@ class StreamingSession:
             return self._handle_silence(n_samples, final)
 
         prompt = self._committed[-200:] or None  # recent text helps spelling and punctuation continuity
+        
         started = time.perf_counter()
-        result = await asyncio.to_thread(self._engine.transcribe, audio, self._language, prompt)
-        logger.debug("Transcribed %.1fs of audio in %.2fs", n_samples / SAMPLE_RATE,
-                     time.perf_counter() - started)
+
+        logger.info(
+            "Starting transcription: audio=%.2fs",
+            n_samples / SAMPLE_RATE,
+        )
+
+        result = await asyncio.to_thread(
+            self._engine.transcribe,
+            audio,
+            self._language,
+            prompt,
+        )
+
+        logger.info(
+            "Transcription completed: audio=%.2fs, processing=%.2fs",
+            n_samples / SAMPLE_RATE,
+            time.perf_counter() - started,
+        )
+
         return self._apply(result, n_samples, final)
+
 
     def _handle_silence(self, n_samples: int, final: bool) -> list[dict]:
         if final:
